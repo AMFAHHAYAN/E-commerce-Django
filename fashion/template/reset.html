@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reser Page</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'css/stylelog.css' %}"
+      type="text/css"
+    />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="text-center">
+                  <h3><i class="fa fa-lock fa-4x"></i></h3>
+                  <h2 class="text-center">Reset Password?</h2>
+                  <p>You can reset your password here.</p>
+                  <div class="panel-body">
+                    <form id="register-form" class="form" method="post">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                            <i
+                              class="glyphicon glyphicon-envelope color-blue"
+                            ></i>
+                          </span>
+                          <input
+                            id="password"
+                            name="newpass"
+                            placeholder="New Password"
+                            class="form-control"
+                            type="password"
+                          />
+                          <input
+                            id="password"
+                            name="cpass"
+                            placeholder="Confirm Password"
+                            class="form-control"
+                            type="password"
+                          />
+                        </div>
+                      </div>
+                      <div id="password-error" class="error-message"></div>
+                      <div class="form-group">
+                        <input
+                          class="btn btn-lg btn-primary btn-block"
+                          value="Reset Password"
+                          type="submit"
+                        />
+                      </div>
+
+                      <input
+                        type="hidden"
+                        class="hide"
+                        name="token"
+                        id="token"
+                        value=""
+                      />
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if messages %} {% for message in messages %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if message.tags == 'success' %}
+    <script>
+      Swal.fire("Success!!", "{{message}}", "success");
+    </script>
+    {% else %}
+    <script>
+      Swal.fire("Oops!", "{{message}}", "error");
+    </script>
+    {% endif %} {% endfor %} {% endif %}
+    <script>
+        document.getElementById("password").addEventListener("input", () => {
+          validatePassword();
+        })
+      function validatePassword() {;
+        const password = document.getElementById("password").value;
+        const errorElement = document.getElementById("password-error");
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+        if (!regex.test(password)) {
+            errorElement.textContent = "New Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.";
+            return false; 
+        }
+        
+        errorElement.textContent = ""; 
+        return true; 
+      }
+    </script>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  </body>
+</html>
